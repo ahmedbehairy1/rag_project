@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import time
 from app.llm import answer_question
+import uvicorn
+import os
 
 # Initialize FastAPI app
 app = FastAPI(title="RAG Gemini API")
@@ -25,3 +27,8 @@ def query_rag(request: QueryRequest):
     latency = time.time() - start_time
 
     return QueryResponse(answer=answer, latency=latency)
+
+# Run the app
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # Read PORT from environment
+    uvicorn.run(app, host="0.0.0.0", port=port)

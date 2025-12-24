@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import time
-from app.llm import answer_question
+from .llm import answer_question
 import uvicorn
 import os
 

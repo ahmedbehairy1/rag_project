@@ -23,7 +23,7 @@ def prepare_context(question, top_k=5):
     """
     top_chunks = retrieve_top_k(question, k=top_k)
     context_text = " ".join(top_chunks)
-    return context_text
+    return context_text , top_chunks
 
 # Generate answer using Gemini API
 def generate_answer(question, context):
@@ -55,9 +55,11 @@ Answer:
 
 
 def answer_question(question, top_k=5):
-    """
-    Full RAG pipeline: retrieve chunks -> generate answer
-    """
-    context = prepare_context(question, top_k=top_k)
-    answer = generate_answer(question, context)
-    return answer
+    context_text, context_chunks = prepare_context(question, top_k=top_k)
+    answer = generate_answer(question, context_text)
+
+    return {
+        "answer": answer,
+        "context": context_chunks
+    }
+
